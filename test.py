@@ -1,6 +1,7 @@
 import os
 import glob
 import time
+import json
 import requests
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -37,5 +38,8 @@ def read_temp():
 while True:
     c,f = read_temp()
     print(c,f)
-    requests.post('http://127.0.0.1:5000/test2', json={'temperature':c})
+    payload = {'temperature':c}
+    headers = {'content-type': 'application/json'}
+    url = 'http://127.0.0.1:5000/test2'
+    response = requests.post(url, data=json.dumps(payload), headers=headers)
     time.sleep(1)
