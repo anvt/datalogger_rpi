@@ -38,8 +38,8 @@ def read_temp():
 while True:
     c,f = read_temp()
     print(c,f)
-    payload = {'temperature':c}
+    payload = {"value":c, "user_id":1, "name":"Fridge"}
     headers = {'content-type': 'application/json'}
     url = 'http://127.0.0.1:5000/test2'
     response = requests.post(url, data=json.dumps(payload), headers=headers)
-    time.sleep(1)
+    time.sleep(5)
