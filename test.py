@@ -3,11 +3,11 @@ import glob
 import time
 import json
 import requests
+
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
 import datetime
-
 
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
@@ -17,6 +17,7 @@ import os
 import requests
 
 os.environ['NO_PROXY'] = '127.0.0.1'
+
 
 def read_temp_raw():
     f = open(device_file, 'r')
@@ -42,13 +43,13 @@ def read_temp():
 while True:
 
     try:
-        c,f, dt = read_temp()
-        print(c,f)
-        payload = {"value":c, "user_id":1, "name":"Fridge", "datetime":dt}
+        c, f, dt = read_temp()
+        print(c, f)
+        payload = {"value": c, "user_id": 1, "name": "Fridge", "datetime": dt}
         headers = {'content-type': 'application/json'}
         url = 'http://192.168.1.2:5000/test2'
         response = requests.post(url, data=json.dumps(payload), headers=headers)
-        time.sleep(5)
+        time.sleep(60)
     except Exception as e:
         print(e)
         # todo: send request to server that an error has occured else send an sms from the shield.
