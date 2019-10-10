@@ -6,6 +6,9 @@ import requests
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
+import datetime
+
+
 base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
@@ -23,6 +26,7 @@ def read_temp_raw():
 
 
 def read_temp():
+    currentDT = datetime.datetime.now()
     lines = read_temp_raw()
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
@@ -32,13 +36,14 @@ def read_temp():
         temp_string = lines[1][equals_pos + 2:]
         temp_c = float(temp_string) / 1000.0
         temp_f = temp_c * 9.0 / 5.0 + 32.0
-        return temp_c, temp_f
+        return temp_c, temp_f, str(currentDT)
 
 
 while True:
-    c,f = read_temp()
+
+    c,f, dt = read_temp()
     print(c,f)
-    payload = {"value":c, "user_id":1, "name":"Fridge"}
+    payload = {"value":c, "user_id":1, "name":"Fridge", "datetime":dt}
     headers = {'content-type': 'application/json'}
     url = 'http://192.168.1.2:5000/test2'
     response = requests.post(url, data=json.dumps(payload), headers=headers)
