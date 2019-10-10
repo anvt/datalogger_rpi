@@ -31,5 +31,7 @@ def read_temp():
 
 
 while True:
-    print(read_temp())
+    c,f = read_temp()
+    print(c,f)
+    requests.post('127.0.0.1:5000', json={'temperature':c})
     time.sleep(1)
