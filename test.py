@@ -40,6 +40,6 @@ while True:
     print(c,f)
     payload = {"value":c, "user_id":1, "name":"Fridge"}
     headers = {'content-type': 'application/json'}
-    url = 'http://127.0.0.1:5000/test2'
+    url = 'http://192.168.1.2:5000/test2'
     response = requests.post(url, data=json.dumps(payload), headers=headers)
     time.sleep(5)
