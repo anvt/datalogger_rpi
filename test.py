@@ -1,7 +1,7 @@
 import os
 import glob
 import time
-
+import requests
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
