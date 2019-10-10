@@ -9,6 +9,10 @@ base_dir = '/sys/bus/w1/devices/'
 device_folder = glob.glob(base_dir + '28*')[0]
 device_file = device_folder + '/w1_slave'
 
+import os
+import requests
+
+os.environ['NO_PROXY'] = '127.0.0.1'
 
 def read_temp_raw():
     f = open(device_file, 'r')
@@ -33,5 +37,5 @@ def read_temp():
 while True:
     c,f = read_temp()
     print(c,f)
-    requests.post('127.0.0.1:5000', json={'temperature':c})
+    requests.post('http://127.0.0.1:5000/test2', json={'temperature':c})
     time.sleep(1)
