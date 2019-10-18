@@ -87,12 +87,13 @@ if __name__ == '__main__':
             try:
                 c, f, dt = read_temp(path)
                 print(c, f)
+                payload['user_id'] = user_id
                 payload['value'] = c
                 payload['datetime'] = dt
 
                 # payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge",
                 headers = {'content-type': 'application/json'}
-                url = 'http://192.168.1.2:5000/test2'
+                url = 'http://192.168.1.2:5000/temperature'
                 print(payload)
                 response = requests.post(url, data=json.dumps(payload), headers=headers)
             except Exception as e:
