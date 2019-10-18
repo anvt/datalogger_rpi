@@ -23,9 +23,11 @@ def get_ds18b20_paths():
     ds = []
     sensor_id = []
     device_folders = glob.glob(base_dir + '28*')
-    for path in device_folders:
+    device_folders_slave = [p+'/w1_slave' for p in device_folders]
+
+    for path in device_folders_slave:
         ds.append(path)
-        sensor_id.append(path.split('/')[-1])
+        sensor_id.append(path.split('/')[-2])
     return list(zip(sensor_id, ds))
 
 
