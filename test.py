@@ -45,7 +45,7 @@ def read_temp(path):
     lines = read_temp_raw(path)
     while lines[0].strip()[-3:] != 'YES':
         time.sleep(0.2)
-        lines = read_temp_raw()
+        lines = read_temp_raw(path)
     equals_pos = lines[1].find('t=')
     if equals_pos != -1:
         temp_string = lines[1][equals_pos + 2:]
@@ -60,14 +60,14 @@ while True:
     for sensor in ds18b20s:
         path = sensor[1]
         print(path)
-    #     try:
-    #         c, f, dt = read_temp(path)
-    #         print(c, f)
-    #         payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge", "datetime": dt}
-    #         headers = {'content-type': 'application/json'}
-    #         url = 'http://192.168.1.2:5000/test2'
-    #         response = requests.post(url, data=json.dumps(payload), headers=headers)
-    #     except Exception as e:
-    #         print(e)
-    #         # todo: send request to server that an error has occured else send an sms from the shield.
+        try:
+            c, f, dt = read_temp(path)
+            print(c, f)
+            payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge", "datetime": dt}
+            headers = {'content-type': 'application/json'}
+            url = 'http://192.168.1.2:5000/test2'
+            response = requests.post(url, data=json.dumps(payload), headers=headers)
+        except Exception as e:
+            print(e)
+            # todo: send request to server that an error has occured else send an sms from the shield.
     time.sleep(30)
