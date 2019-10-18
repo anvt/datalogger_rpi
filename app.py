@@ -18,6 +18,26 @@ from flask_bootstrap import Bootstrap
 csrf = CSRFProtect(app)
 bootstrap = Bootstrap(app)
 
+import datetime
+import glob
+
+import os
+import requests
+
+def get_ds18b20_paths():
+    base_dir = '/sys/bus/w1/devices/'
+    device_folder = glob.glob(base_dir + '28*')[0]
+    device_file = device_folder + '/w1_slave'
+
+    ds = []
+    sensor_id = []
+    device_folders = glob.glob(base_dir + '28*')
+    device_folders_slave = [p + '/w1_slave' for p in device_folders]
+
+    for path in device_folders_slave:
+        ds.append(path)
+        sensor_id.append(path.split('/')[-2])
+    return list(zip(sensor_id, ds))
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -26,6 +46,10 @@ def index():
         data = json.load(parameters)
 
     ds18b20s = data['ds18b20']
+    try:
+        detected_ds18b20s = [d[0] for d in get_ds18b20_paths()]
+    except:
+        detected_ds18b20s = []
 
     output = []
     for dd in ds18b20s:
@@ -47,8 +71,8 @@ def index():
             #     data['ds18b20'].append(ds)
         with open('parameters.json', 'w') as f:
             json.dump(data, f)
-        # return redirect('/')
-    return render_template('./index.html', form=form, datasources=output)
+        return redirect('/')
+    return render_template('./index.html', form=form, datasources=output, detected_ds18b20s=detected_ds18b20s)
 
 
 if __name__ == '__main__':

@@ -6,17 +6,39 @@
 {% block page_content %}
 
 <div class="page-header">
-    <h1>{{form.sensor_name.data}}</h1>
+    <h1>Setup Sensors</h1>
 </div>
 <div class="col-md-4">
+        <h1>Fill Out Sensor Details</h1>
+
     {{ wtf.quick_form(form) }}
-    <br>
 
 </div>
 
 <div class="col-md-4">
-{% for ds in datasources %} {{ds}} {% endfor %}
-    <br>
+    <h1>Registered Sensors</h1>
+
+    <ul>
+        {% for ds in datasources %}
+
+  <li>{{ds}}</li>
+    {% endfor %}
+
+</ul>
+
+
+</div>
+<div class="col-md-4">
+    <h1>Detected ds18b20 (Temperature) Sensors</h1>
+
+    <ul>
+        {% for ds in detected_ds18b20s %}
+
+  <li>{{ds}}</li>
+    {% endfor %}
+
+</ul>
+
 
 </div>
 
