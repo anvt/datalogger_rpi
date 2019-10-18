@@ -3,6 +3,7 @@ import glob
 import time
 import json
 import requests
+import json
 
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
@@ -23,7 +24,7 @@ def get_ds18b20_paths():
     ds = []
     sensor_id = []
     device_folders = glob.glob(base_dir + '28*')
-    device_folders_slave = [p+'/w1_slave' for p in device_folders]
+    device_folders_slave = [p + '/w1_slave' for p in device_folders]
 
     for path in device_folders_slave:
         ds.append(path)
@@ -56,20 +57,45 @@ def read_temp(path):
         return temp_c, temp_f, str(currentDT)
 
 
-while True:
-    ds18b20s = get_ds18b20_paths()
-    print(ds18b20s)
-    for sensor in ds18b20s:
-        path = sensor[1]
-        print(path)
-        try:
-            c, f, dt = read_temp(path)
-            print(c, f)
-            payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge", "datetime": dt}
-            headers = {'content-type': 'application/json'}
-            url = 'http://192.168.1.2:5000/test2'
-            response = requests.post(url, data=json.dumps(payload), headers=headers)
-        except Exception as e:
-            print(e)
-            # todo: send request to server that an error has occured else send an sms from the shield.
-    time.sleep(30)
+if __name__ == '__main__':
+
+    with open('parameters.json') as parameters:
+        data = json.load(parameters)
+
+    user_id = data['user_id']
+
+    # ds18d20
+    while True:
+        ds18b20s = get_ds18b20_paths()
+        print(ds18b20s)
+        sensors = data['ds18b20']
+        for sensor in ds18b20s:
+            sensor_id = sensor[0]
+            path = sensor[1]
+            for se in sensors:
+                if se['id'] == sensor_id:
+                    payload = se
+                    break
+                else:
+                    print('Default')
+                    payload = {
+                        "name": "Fridge",
+                        "id": "28-031897790020",
+                        "token": "bigpennis"
+                    }
+                # todo: what to do when not in it?
+            try:
+                c, f, dt = read_temp(path)
+                print(c, f)
+                payload['value'] = c
+                payload['datetime'] = dt
+
+                # payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge",
+                headers = {'content-type': 'application/json'}
+                url = 'http://192.168.1.2:5000/test2'
+                print(payload)
+                response = requests.post(url, data=json.dumps(payload), headers=headers)
+            except Exception as e:
+                print(e)
+                # todo: send request to server that an error has occured else send an sms from the shield.
+        time.sleep(30)

@@ -1,4 +1,11 @@
 {
-  "store_id": 1,
-  "ds18b20": []
+  "user_id": 1,
+  "ds18b20": [
+    {
+      "name": "Fridge",
+      "id": "28-031897790020",
+      "token": "bigpennis"
+    }
+  ]
 }
+
