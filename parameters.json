@@ -4,7 +4,8 @@
     {
       "name": "Fridge",
       "sensor_code": "28-031897790020",
-      "token": "bigpennis"
+      "token": "bigpennis",
+      "sensor_type": "Temperature"
     }
   ]
 }

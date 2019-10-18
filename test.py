@@ -73,7 +73,7 @@ if __name__ == '__main__':
             sensor_id = sensor[0]
             path = sensor[1]
             for se in sensors:
-                if se['id'] == sensor_id:
+                if se['sensor_code'] == sensor_id:
                     payload = se
                     break
                 else:
