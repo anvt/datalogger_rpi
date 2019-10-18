@@ -57,8 +57,9 @@ def read_temp(path):
 while True:
     ds18b20s = get_ds18b20_paths()
     print(ds18b20s)
-    # for sensor in ds18b20s:
-    #     path = sensor[1]
+    for sensor in ds18b20s:
+        path = sensor[1]
+        print(path)
     #     try:
     #         c, f, dt = read_temp(path)
     #         print(c, f)
