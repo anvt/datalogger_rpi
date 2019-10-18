@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}epoptis-Token{% endblock %}
+
+{% block page_content %}
+
+<div class="page-header">
+    <h1>{{form.sensor_name.data}}</h1>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+    <br>
+
+</div>
+
+<div class="col-md-4">
+{% for ds in datasources %} {{ds}} {% endfor %}
+    <br>
+
+</div>
+
+
+{% endblock %}
