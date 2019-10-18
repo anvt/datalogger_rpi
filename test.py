@@ -16,10 +16,13 @@ device_file = device_folder + '/w1_slave'
 import os
 import requests
 
-os.environ['NO_PROXY'] = '127.0.0.1'
+# os.environ['NO_PROXY'] = '127.0.0.1'
 
 
 def read_temp_raw():
+    device_folder = glob.glob(base_dir + '28*')
+    print(device_folder)
+
     f = open(device_file, 'r')
     lines = f.readlines()
     f.close()
@@ -53,3 +56,5 @@ while True:
     except Exception as e:
         print(e)
         # todo: send request to server that an error has occured else send an sms from the shield.
+
+
