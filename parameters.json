@@ -3,6 +3,7 @@
   "ds18b20": [
     {
       "name": "Fridge",
+      "sensor_id": "28-031897790020",
       "sensor_code": "28-031897790020",
       "token": "bigpennis",
       "sensor_type": "Temperature"
