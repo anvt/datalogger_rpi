@@ -30,10 +30,14 @@ def get_ds18b20_paths():
 
 
 def read_temp_raw(path):
-    f = open(path, 'r')
-    lines = f.readlines()
-    f.close()
-    return lines
+    try:
+        f = open(path, 'r')
+        lines = f.readlines()
+        f.close()
+        return lines
+    except Exception as e:
+        print(e)
+        return None
 
 
 def read_temp(path):
@@ -52,16 +56,17 @@ def read_temp(path):
 
 while True:
     ds18b20s = get_ds18b20_paths()
-    for sensor in ds18b20s:
-        path = sensor[1]
-        try:
-            c, f, dt = read_temp(path)
-            print(c, f)
-            payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge", "datetime": dt}
-            headers = {'content-type': 'application/json'}
-            url = 'http://192.168.1.2:5000/test2'
-            response = requests.post(url, data=json.dumps(payload), headers=headers)
-        except Exception as e:
-            print(e)
-            # todo: send request to server that an error has occured else send an sms from the shield.
-        time.sleep(30)
+    print(ds18b20s)
+    # for sensor in ds18b20s:
+    #     path = sensor[1]
+    #     try:
+    #         c, f, dt = read_temp(path)
+    #         print(c, f)
+    #         payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge", "datetime": dt}
+    #         headers = {'content-type': 'application/json'}
+    #         url = 'http://192.168.1.2:5000/test2'
+    #         response = requests.post(url, data=json.dumps(payload), headers=headers)
+    #     except Exception as e:
+    #         print(e)
+    #         # todo: send request to server that an error has occured else send an sms from the shield.
+    time.sleep(30)
