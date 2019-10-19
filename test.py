@@ -93,8 +93,8 @@ if __name__ == '__main__':
             # payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge",
             headers = {'content-type': 'application/json'}
             try:
-
-                url = 'http://thethalos.com/epoptis/temperature'
+                # print('Pos')
+                url = 'http://thethalos.com/temperature'
                 print(payload)
                 response = requests.post(url, data=json.dumps(payload), headers=headers)
 
