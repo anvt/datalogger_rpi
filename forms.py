@@ -8,7 +8,7 @@ class RegisterSensor(Form):
     This is the Login Form class. It has the Form as a parent. When used in templating the wtf automatically
     generates a Form just as seen when we navigate towards /login page.
     """
-    name = StringField('Name')#,validators=[DataRequired()])
+    sensor_name = StringField('Name')#,validators=[DataRequired()])
 
     sensor_code = StringField('Sensor Code')#, validators=[DataRequired()])
 
