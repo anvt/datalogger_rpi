@@ -1,7 +1,7 @@
 # todo: This will create a mini webpage for setting the tokens etc for the server.
 
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 import json
 import os
 from flask_wtf.csrf import CSRFProtect
@@ -24,6 +24,7 @@ import glob
 import os
 import requests
 
+
 def get_ds18b20_paths():
     base_dir = '/sys/bus/w1/devices/'
     device_folder = glob.glob(base_dir + '28*')[0]
@@ -39,6 +40,7 @@ def get_ds18b20_paths():
         sensor_id.append(path.split('/')[-2])
     return list(zip(sensor_id, ds))
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = RegisterSensor()
@@ -53,24 +55,26 @@ def index():
 
     output = []
     for dd in ds18b20s:
-        output.append(str([dd['sensor_name'],dd['sensor_code'],dd['token'],dd['user_id']]))
+        output.append(str([dd['sensor_name'], dd['sensor_code'], dd['token'], dd['user_id']]))
 
     if form.validate_on_submit():
-        flag=False
+        flag = False
         print(request.form)
-        for d, ds in enumerate(ds18b20s):
-
-            if ds['sensor_code'] == request.form['sensor_code']:
-                ds = request.form
-                flag=True
-                print(flag)
-                data['ds18b20'][d] = ds
-                break
-        if not flag:
-            data['ds18b20'].append(request.form)
-            #     data['ds18b20'].append(ds)
-        with open('parameters.json', 'w') as f:
-            json.dump(data, f)
+        if request.form['sensor_code'] in detected_ds18b20s:
+            for d, ds in enumerate(ds18b20s):
+                if ds['sensor_code'] == request.form['sensor_code']:
+                    ds = request.form
+                    flag = True
+                    print(flag)
+                    data['ds18b20'][d] = ds
+                    break
+            if not flag:
+                data['ds18b20'].append(request.form)
+                #     data['ds18b20'].append(ds)
+            with open('parameters.json', 'w') as f:
+                json.dump(data, f)
+        else:
+            flash('Sensor is not connected please check if the sensor code exists on the right.')
         return redirect('/')
     return render_template('./index.html', form=form, datasources=output, detected_ds18b20s=detected_ds18b20s)
 
