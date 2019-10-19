@@ -136,50 +136,50 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 
-@app.route('/plot.png')
-def plot_png():
-    fig = create_figure()
-
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-    return Response(output.getvalue(), mimetype='image/png')
-    # full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'new_plot.png')
-    #
-    # return render_template('graphs.html', name='new_plot', url=full_filename)
+# @app.route('/plot.png')
+# def plot_png():
+#     fig = create_figure()
+#
+#     output = io.BytesIO()
+#     FigureCanvas(fig).print_png(output)
+#     return Response(output.getvalue(), mimetype='image/png')
+#     # full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'new_plot.png')
+#     #
+#     # return render_template('graphs.html', name='new_plot', url=full_filename)
 
 
 import pandas as pd
 import numpy as np
 
-import matplotlib.pyplot as plt
-
-
-def create_figure():
-    start = pd.to_datetime('2015-02-24')
-    rng = pd.date_range(start, periods=15, freq='20H')
-    df = pd.DataFrame({'datetime': rng, 'data': np.random.random(15)})
-    days = 2
-    cutoff_date = df["datetime"].iloc[-1] - pd.Timedelta(days=days)
-    df1 = df[df['datetime'] > cutoff_date]
-
-    print(df1)
-
-    fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
-    # xs = range(100)
-    # ys = [random.randint(1, 50) for x in xs]
-    xs = df1['datetime']
-    ys = df1['data']
-    plt.setp(axis.xaxis.get_majorticklabels(), rotation=45)
-
-    axis.plot(xs, ys)
-    axis.set_title('Temperature Graphs')
-    axis.set_ylabel('Temperature [C]')
-    axis.set_xlabel('Time')
-    # plt.savefig('new_plot.png')
-    # plt.rcParams["figure.figsize"] = [50, 30]
-    fig.savefig('new_plot.png')
-    return fig
+# import matplotlib.pyplot as plt
+#
+#
+# def create_figure():
+#     start = pd.to_datetime('2015-02-24')
+#     rng = pd.date_range(start, periods=15, freq='20H')
+#     df = pd.DataFrame({'datetime': rng, 'data': np.random.random(15)})
+#     days = 2
+#     cutoff_date = df["datetime"].iloc[-1] - pd.Timedelta(days=days)
+#     df1 = df[df['datetime'] > cutoff_date]
+#
+#     print(df1)
+#
+#     fig = Figure()
+#     axis = fig.add_subplot(1, 1, 1)
+#     # xs = range(100)
+#     # ys = [random.randint(1, 50) for x in xs]
+#     xs = df1['datetime']
+#     ys = df1['data']
+#     plt.setp(axis.xaxis.get_majorticklabels(), rotation=45)
+#
+#     axis.plot(xs, ys)
+#     axis.set_title('Temperature Graphs')
+#     axis.set_ylabel('Temperature [C]')
+#     axis.set_xlabel('Time')
+#     # plt.savefig('new_plot.png')
+#     # plt.rcParams["figure.figsize"] = [50, 30]
+#     fig.savefig('new_plot.png')
+#     return fig
 
 
 from bokeh.plotting import figure, show, output_file
