@@ -59,19 +59,12 @@ def read_temp(path):
 
 if __name__ == '__main__':
 
-    # with open('parameters.json') as parameters:
-    #     data = json.load(parameters)
-    #
-    # user_id = data['user_id']
+    with open('parameters.json') as parameters:
+        data = json.load(parameters)
 
-    # ds18d20
     while True:
 
-        with open('parameters.json') as parameters:
-            data = json.load(parameters)
-
         user_id = data['user_id']
-
 
         ds18b20s = get_ds18b20_paths()
         print(ds18b20s)

@@ -74,6 +74,8 @@ def index():
                 #     data['ds18b20'].append(ds)
             with open('parameters.json', 'w') as f:
                 json.dump(data, f)
+            os.system('/etc/init.d/cron reload')
+            flash('Reloaded Cron.')
         else:
             flash('Sensor is not connected please check if the sensor code exists on the right.')
         return redirect('/')
