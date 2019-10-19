@@ -5,14 +5,14 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<div class="navbar navbar-inverse", role = "navigation">
+<div class="navbar navbar-inverse" , role="navigation">
     <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">epoptis rpi datalogger</a>
-    </div>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">epoptis rpi datalogger</a>
+        </div>
         <ul class="nav navbar-nav">
-            <li class="active">
-<!--                <a href="">Home</a>-->
+            <li class="inactive">
+                <a href="{{ url_for('.plot_png')}}">Graphs</a>
             </li>
 
             <li class="dropdown">
@@ -24,11 +24,9 @@
                 </ul>
 
             </li>
-     
 
 
-
-    </ul>
+        </ul>
 
     </div>
 </div>
@@ -37,7 +35,7 @@
 
 {% block content %}
 <div class="container">
-        {% for message in get_flashed_messages() %}
+    {% for message in get_flashed_messages() %}
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{ message }}
@@ -52,10 +50,7 @@
     {% endblock %}
 
 
-
 </div>
-
-
 
 
 {% endblock %}
