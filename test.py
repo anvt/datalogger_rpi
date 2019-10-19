@@ -94,7 +94,7 @@ if __name__ == '__main__':
             headers = {'content-type': 'application/json'}
             try:
 
-                url = 'http://192.168.1.2:5000/temperature'
+                url = 'http://thethalos.com/epoptis/temperature'
                 print(payload)
                 response = requests.post(url, data=json.dumps(payload), headers=headers)
 
@@ -107,3 +107,4 @@ if __name__ == '__main__':
                 print(e)
                 # todo: send request to server that an error has occured else send an sms from the shield.
         time.sleep(30)
+
