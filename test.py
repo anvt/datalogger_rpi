@@ -96,6 +96,10 @@ if __name__ == '__main__':
                 url = 'http://192.168.1.2:5000/temperature'
                 print(payload)
                 response = requests.post(url, data=json.dumps(payload), headers=headers)
+                try:
+                    response = requests.post('http://localhost:5000/temperature', data=json.dumps(payload), headers=headers)
+                except Exception as e:
+                    print(e)
             except Exception as e:
                 print(e)
                 # todo: send request to server that an error has occured else send an sms from the shield.
