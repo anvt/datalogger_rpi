@@ -84,22 +84,25 @@ if __name__ == '__main__':
                         "token": "bigpennis"
                     }
                 # todo: what to do when not in it?
-            try:
-                c, f, dt = read_temp(path)
-                print(c, f)
-                payload['user_id'] = user_id
-                payload['value'] = c
-                payload['datetime'] = dt
+            c, f, dt = read_temp(path)
+            print(c, f)
+            payload['user_id'] = user_id
+            payload['value'] = c
+            payload['datetime'] = dt
 
-                # payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge",
-                headers = {'content-type': 'application/json'}
+            # payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge",
+            headers = {'content-type': 'application/json'}
+            try:
+
                 url = 'http://192.168.1.2:5000/temperature'
                 print(payload)
                 response = requests.post(url, data=json.dumps(payload), headers=headers)
-                try:
-                    response = requests.post('http://localhost:5000/temperature', data=json.dumps(payload), headers=headers)
-                except Exception as e:
-                    print(e)
+
+            except Exception as e:
+                print(e)
+
+            try:
+                response = requests.post('http://localhost:5000/temperature', data=json.dumps(payload), headers=headers)
             except Exception as e:
                 print(e)
                 # todo: send request to server that an error has occured else send an sms from the shield.
