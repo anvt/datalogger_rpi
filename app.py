@@ -74,6 +74,8 @@ def index():
                 #     data['ds18b20'].append(ds)
             with open('parameters.json', 'w') as f:
                 json.dump(data, f)
+            flash('Please Reboot the system (if you are done)')
+
             # os.system('/etc/init.d/cron reload')
             # flash('Reloaded Cron.')
         else:
