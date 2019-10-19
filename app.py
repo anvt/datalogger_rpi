@@ -76,6 +76,7 @@ def index():
                 json.dump(data, f)
             flash('Please Reboot the system (if you are done)')
 
+
             # os.system('/etc/init.d/cron reload')
             # flash('Reloaded Cron.')
         else:
