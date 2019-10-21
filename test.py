@@ -63,7 +63,12 @@ if __name__ == '__main__':
         data = json.load(parameters)
 
     while True:
-
+        # import os
+        try:
+            ipv4 = os.popen('ip addr show eth0').read().split("inet ")[1].split("/")[0]
+        except Exception as e:
+            ipv4=None
+            print(e)
         user_id = data['user_id']
 
         ds18b20s = get_ds18b20_paths()
@@ -89,7 +94,7 @@ if __name__ == '__main__':
             payload['user_id'] = user_id
             payload['value'] = c
             payload['datetime'] = dt
-
+            payload['ipv4'] = ipv4
             # payload = {"value": c, 'token': 'test', "user_id": 1, "name": "Fridge",
             headers = {'content-type': 'application/json'}
             try:
