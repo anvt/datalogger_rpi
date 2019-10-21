@@ -275,7 +275,8 @@ def shutdown():
 
     # ipv4 = os.popen('sudo shutdown now')
     # flash('Shutting Down DataLogger. To turn back on please remove the power source and reconnect it')
-    return redirect('/')
+    # return redirect('/')
+    return 'Shutting Down DataLogger. To turn back on please remove the power source and reconnect it'
 
 
 @app.route('/reboot', methods=['GET'])
@@ -289,7 +290,8 @@ def reboot():
     # flash('Rebooting DataLogger. Visit this site in a few minutes.')
 
     # todo: add a thread?
-    return redirect('/')
+    # return redirect('/')
+    return 'Rebooting DataLogger. Visit this site in a few minutes.'
 
 
 @app.route('/reboot', methods=['GET'])
