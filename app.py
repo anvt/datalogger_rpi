@@ -248,7 +248,7 @@ def local_data():
 def shutdown():
     print('Shutting Down')
     # todo: add a thread?
-    ipv4 = os.popen('sudo shutdown now').read().split("inet ")[1].split("/")[0]
+    ipv4 = os.popen('sudo shutdown now')
 
     return 'Shutting Down DataLogger'
 
@@ -258,7 +258,7 @@ def shutdown():
 def reboot():
     print('Rebooting')
     # todo: add a thread?
-    ipv4 = os.popen('sudo reboot now').read().split("inet ")[1].split("/")[0]
+    ipv4 = os.popen('sudo reboot now')
     return 'Rebooting DataLogger Please visit the page in a few minutes.'
 
 
