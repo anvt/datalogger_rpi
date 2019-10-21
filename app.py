@@ -270,9 +270,11 @@ def shutdown():
     print('Shutting Down')
     # todo: add a thread?
     # threading.Thread(target=shutdown).start()
-    shutdown()
+    # shutdown()
+    os.popen('sudo shutdown now')
+
     # ipv4 = os.popen('sudo shutdown now')
-    flash('Shutting Down DataLogger. To turn back on please remove the power source and reconnect it')
+    # flash('Shutting Down DataLogger. To turn back on please remove the power source and reconnect it')
     return redirect('/')
 
 
@@ -280,9 +282,11 @@ def shutdown():
 @csrf.exempt
 def reboot():
     print('Rebooting')
-    reboot()
+    # reboot()
+    os.popen('sudo reboot now')
+
     # threading.Thread(target=reboot).start()
-    flash('Rebooting DataLogger. Visit this site in a few minutes.')
+    # flash('Rebooting DataLogger. Visit this site in a few minutes.')
 
     # todo: add a thread?
     return redirect('/')
