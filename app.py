@@ -249,12 +249,12 @@ import time
 
 def reboot():
     # time.sleep(5)
-    os.popen('sudo reboot')
+    os.popen('sudo reboot now')
 
 
 def shutdown():
     # time.sleep(5)
-    os.popen('sudo shutdown')
+    os.popen('sudo shutdown now')
 
 
 def update_and_reboot():
@@ -271,7 +271,7 @@ def shutdown():
     # todo: add a thread?
     # threading.Thread(target=shutdown).start()
     shutdown()
-    ipv4 = os.popen('sudo shutdown now')
+    # ipv4 = os.popen('sudo shutdown now')
     flash('Shutting Down DataLogger. To turn back on please remove the power source and reconnect it')
     return redirect('/')
 
