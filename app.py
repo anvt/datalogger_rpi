@@ -257,6 +257,10 @@ def shutdown():
 
 def update_and_reboot():
     time.sleep(5)
+    os.popen('git pull')
+    time.sleep(5)
+    os.popen('sudo reboot now')
+
 
 
 @app.route('/shutdown', methods=['GET'])
