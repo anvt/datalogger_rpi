@@ -2,18 +2,18 @@
 
 # Testing Crontab
 
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, redirect, flash
 import json
 import os
 from flask_wtf.csrf import CSRFProtect
 
 from forms import RegisterSensor
 
-# template_dir = os.path.abspath('../../frontend/src')
 template_dir = os.path.abspath('./')
 static_dir = os.path.abspath('./')
 
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
+
 app.secret_key = 'lkdja;ldksjas;lkfblamn'
 
 app.config['UPLOAD_FOLDER'] = os.path.abspath('./')
@@ -31,7 +31,7 @@ db = SQLAlchemy(app)
 
 try:
     db.create_all()
-except:
+except Exception as e:
     os.remove(os.path.join(basedir, 'sensor_data.db'))
     db.create_all()
 
@@ -242,25 +242,26 @@ def local_data():
         {'value': value, 'datetime': datetime, 'name': sensor_name, 'sensor_code': sensor_code})
     return 'Hello'
 
+
 import threading
 import time
 
+
 def reboot():
-    time.sleep(5)
-    os.popen('sudo reboot now')
+    # time.sleep(5)
+    os.popen('sudo reboot')
 
 
 def shutdown():
-    time.sleep(5)
-    os.popen('sudo shutdown now')
+    # time.sleep(5)
+    os.popen('sudo shutdown')
 
 
 def update_and_reboot():
-    time.sleep(5)
+    # time.sleep(5)
     os.popen('git pull')
-    time.sleep(5)
-    os.popen('sudo reboot now')
-
+    # time.sleep(5)
+    os.popen('sudo reboot')
 
 
 @app.route('/shutdown', methods=['GET'])
@@ -268,7 +269,8 @@ def update_and_reboot():
 def shutdown():
     print('Shutting Down')
     # todo: add a thread?
-    threading.Thread(target=shutdown).start()
+    # threading.Thread(target=shutdown).start()
+    shutdown()
     ipv4 = os.popen('sudo shutdown now')
     flash('Shutting Down DataLogger. To turn back on please remove the power source and reconnect it')
     return redirect('/')
@@ -278,7 +280,8 @@ def shutdown():
 @csrf.exempt
 def reboot():
     print('Rebooting')
-    threading.Thread(target=reboot).start()
+    reboot()
+    # threading.Thread(target=reboot).start()
     flash('Rebooting DataLogger. Visit this site in a few minutes.')
 
     # todo: add a thread?
