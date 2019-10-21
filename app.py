@@ -242,24 +242,43 @@ def local_data():
         {'value': value, 'datetime': datetime, 'name': sensor_name, 'sensor_code': sensor_code})
     return 'Hello'
 
+import threading
+import time
+
+def reboot():
+    time.sleep(5)
+    os.popen('sudo reboot now')
+
+
+def shutdown():
+    time.sleep(5)
+    os.popen('sudo shutdown now')
+
+
+def update_and_reboot():
+    time.sleep(5)
+
 
 @app.route('/shutdown', methods=['GET'])
 @csrf.exempt
 def shutdown():
     print('Shutting Down')
     # todo: add a thread?
+    threading.Thread(target=shutdown).start()
     ipv4 = os.popen('sudo shutdown now')
-
-    return 'Shutting Down DataLogger'
+    flash('Shutting Down DataLogger. To turn back on please remove the power source and reconnect it')
+    return redirect('/')
 
 
 @app.route('/reboot', methods=['GET'])
 @csrf.exempt
 def reboot():
     print('Rebooting')
+    threading.Thread(target=reboot).start()
+    flash('Rebooting DataLogger. Visit this site in a few minutes.')
+
     # todo: add a thread?
-    ipv4 = os.popen('sudo reboot now')
-    return 'Rebooting DataLogger Please visit the page in a few minutes.'
+    return redirect('/')
 
 
 @app.route('/reboot', methods=['GET'])
