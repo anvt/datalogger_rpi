@@ -27,7 +27,13 @@
 
 
         </ul>
-
+<ul class="nav navbar-nav navbar-right">
+            <li>
+                <a class="btn btn-danger" href="{{ url_for('.shutdown') }}">Shutdown</a>
+            </li>            <li>
+                <a class="btn btn-warning"  href="{{ url_for('.reboot') }}">Reboot</a>
+            </li>
+        </ul>
     </div>
 </div>
 

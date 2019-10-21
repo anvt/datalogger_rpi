@@ -135,7 +135,6 @@ from flask import Response
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-
 # @app.route('/plot.png')
 # def plot_png():
 #     fig = create_figure()
@@ -242,6 +241,31 @@ def local_data():
     TemperatureData.insert_data(
         {'value': value, 'datetime': datetime, 'name': sensor_name, 'sensor_code': sensor_code})
     return 'Hello'
+
+
+@app.route('/shutdown', methods=['GET'])
+@csrf.exempt
+def shutdown():
+    print('Shutting Down')
+    # todo: add a thread?
+    ipv4 = os.popen('sudo shutdown now').read().split("inet ")[1].split("/")[0]
+
+    return 'Shutting Down DataLogger'
+
+
+@app.route('/reboot', methods=['GET'])
+@csrf.exempt
+def reboot():
+    print('Rebooting')
+    # todo: add a thread?
+    ipv4 = os.popen('sudo reboot now').read().split("inet ")[1].split("/")[0]
+    return 'Rebooting DataLogger Please visit the page in a few minutes.'
+
+
+@app.route('/reboot', methods=['GET'])
+@csrf.exempt
+def update_and_reboot_system():
+    return 'Updating and Rebooting you system'
 
 
 if __name__ == '__main__':
