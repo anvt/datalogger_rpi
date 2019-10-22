@@ -213,8 +213,8 @@ def index3():
     datetimes = [d.datetime for d in data]
     dts = pd.to_datetime(datetimes)
     df = pd.DataFrame(list(zip(dts, values)), columns=['x', 'y'])
-    df2 = df.dropna()
-    print(df2)
+    # todo: add parameter in form to show last n results.
+    df2 = df.dropna().iloc[-20:]
 
     x = df2['x']
     y = df2['y']
