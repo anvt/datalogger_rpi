@@ -2,6 +2,10 @@
 
 # Testing Crontab
 
+
+import threading
+import time
+
 from flask import Flask, redirect, flash
 import json
 import os
@@ -241,10 +245,6 @@ def local_data():
     TemperatureData.insert_data(
         {'value': value, 'datetime': datetime, 'name': sensor_name, 'sensor_code': sensor_code})
     return 'Hello'
-
-
-import threading
-import time
 
 
 def reboot():

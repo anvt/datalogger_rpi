@@ -5,8 +5,8 @@ import json
 import requests
 import json
 
-os.system('modprobe w1-gpio')
-os.system('modprobe w1-therm')
+# os.system('modprobe w1-gpio')
+# os.system('modprobe w1-therm')
 
 import datetime
 
@@ -82,6 +82,8 @@ if __name__ == '__main__':
                     payload = se
                     break
                 else:
+                    print('Sensor Code: Not found.')
+                    continue
                     print('Default')
                     payload = {
                         "name": "Fridge",
