@@ -3,15 +3,23 @@
 # Testing Crontab
 
 
-import threading
-import time
+import json
+import glob
+import os
 
 from flask import Flask, redirect, flash
-import json
-import os
 from flask_wtf.csrf import CSRFProtect
+from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
+from forms import RegisterSensor, DeleteSensorForm
 
-from forms import RegisterSensor
+from bokeh.plotting import figure
+
+from flask import render_template, request
+import pandas as pd
+from bokeh.embed import components
+from bokeh.models import DatetimeTickFormatter
+from math import pi
 
 template_dir = os.path.abspath('./')
 static_dir = os.path.abspath('./')
@@ -25,11 +33,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'sensor_data.db')
 
-from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
-
 csrf = CSRFProtect(app)
-
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
@@ -68,18 +72,13 @@ class TemperatureData(db.Model):
 db.create_all()
 db.session.commit()
 
-import datetime
-import glob
-
-import os
-import requests
-
 
 def get_ds18b20_paths():
+    """
+    This method returns the path to the ds18b20 sensors in the raspberry 1-wire protocol implementation.
+    :return:
+    """
     base_dir = '/sys/bus/w1/devices/'
-    device_folder = glob.glob(base_dir + '28*')[0]
-    device_file = device_folder + '/w1_slave'
-
     ds = []
     sensor_id = []
     device_folders = glob.glob(base_dir + '28*')
@@ -94,13 +93,16 @@ def get_ds18b20_paths():
 # https://stackoverflow.com/questions/9198334/how-to-build-up-a-html-table-with-a-simple-for-loop-in-jinja2
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    form = RegisterSensor()
+    form = RegisterSensor(prefix='form')
+
     with open('parameters.json') as parameters:
         data = json.load(parameters)
 
     ds18b20s = data['ds18b20']
+    # find_ds18b20_paths = get_ds18b20_paths()
+    find_ds18b20_paths = [('28-00000b246922', 'path')]
     try:
-        detected_ds18b20s = [d[0] for d in get_ds18b20_paths()]
+        detected_ds18b20s = [d[0] for d in find_ds18b20_paths]
     except:
         detected_ds18b20s = []
 
@@ -108,19 +110,34 @@ def index():
     for dd in ds18b20s:
         output.append(str([dd['sensor_name'], dd['sensor_code'], dd['token'], dd['user_id']]))
 
-    if form.validate_on_submit():
+    form1 = DeleteSensorForm(prefix='form1')
+    codes = []
+    for d, dd in enumerate(ds18b20s):
+        code = dd['sensor_code']
+        name = dd['sensor_name']
+        codes.append((d, name + ' ' + code))
+
+    form1.sensor_name.choices = codes
+
+    if form.validate_on_submit() and form.submit1.data:
         flag = False
         print(request.form)
-        if request.form['sensor_code'] in detected_ds18b20s:
+        if request.form['form-sensor_code'] in detected_ds18b20s:
             for d, ds in enumerate(ds18b20s):
-                if ds['sensor_code'] == request.form['sensor_code']:
+                if ds['sensor_code'] == request.form['form-sensor_code']:
                     ds = request.form
                     flag = True
                     print(flag)
                     data['ds18b20'][d] = ds
                     break
             if not flag:
-                data['ds18b20'].append(request.form)
+                ds = request.form
+                temp = {}
+                for k in ds.keys():
+                    print(k)
+                    new_key = k[5:]
+                    temp[new_key] = ds[k]
+                data['ds18b20'].append(temp)
                 #     data['ds18b20'].append(ds)
             with open('parameters.json', 'w') as f:
                 json.dump(data, f)
@@ -130,14 +147,17 @@ def index():
         else:
             flash('Sensor is not connected please check if the sensor code exists on the right.')
         return redirect('/')
-    return render_template('./index.html', form=form, datasources=output, detected_ds18b20s=detected_ds18b20s)
+    elif form1.validate_on_submit() and form1.submit2.data:
+        ds18b20s.pop(form1.sensor_name.data)
+        data['ds18b20'] = ds18b20s
+        flash('Erased Sensor Info Succesfully')
+        with open('parameters.json', 'w') as data_file:
+            json.dump(data, data_file)
+        return redirect('/')
 
+    return render_template('./index.html', form=form, form1=form1, datasources=output,
+                           detected_ds18b20s=detected_ds18b20s)
 
-import io
-import random
-from flask import Response
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
 
 # @app.route('/plot.png')
 # def plot_png():
@@ -150,9 +170,6 @@ from matplotlib.figure import Figure
 #     #
 #     # return render_template('graphs.html', name='new_plot', url=full_filename)
 
-
-import pandas as pd
-import numpy as np
 
 # import matplotlib.pyplot as plt
 #
@@ -185,16 +202,6 @@ import numpy as np
 #     return fig
 
 
-from bokeh.plotting import figure, show, output_file
-
-from flask import Flask, render_template, request
-import pandas as pd
-from bokeh.charts import Histogram, Line
-from bokeh.embed import components
-from bokeh.models import DatetimeTickFormatter
-from math import pi
-
-
 @app.route('/sensors')
 def index3():
     p = figure(title='Plots', sizing_mode='scale_width', height=200)
@@ -213,15 +220,20 @@ def index3():
     colors = ['tomato', 'limegreen', 'mediumorchid']
     data = TemperatureData.query.all()
 
-    values = [d.value for d in data]
-    datetimes = [d.datetime for d in data]
-    dts = pd.to_datetime(datetimes)
-    df = pd.DataFrame(list(zip(dts, values)), columns=['x', 'y'])
-    # todo: add parameter in form to show last n results.
-    df2 = df.dropna().iloc[-20:]
+    try:
+        values = [d.value for d in data]
+        datetimes = [d.datetime for d in data]
+        dts = pd.to_datetime(datetimes)
+        df = pd.DataFrame(list(zip(dts, values)), columns=['x', 'y'])
+        # todo: add parameter in form to show last n results.
+        df2 = df.dropna().iloc[-20:]
 
-    x = df2['x']
-    y = df2['y']
+        x = df2['x']
+        y = df2['y']
+    except Exception as e:
+        print(e)
+        x = []
+        y = []
     p.line(x, y, legend='Sensor 1',
            line_color=colors[0], line_dash="dotdash")
     # p.sizing_mode = 'scale_width'

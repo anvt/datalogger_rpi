@@ -1,3 +1,13 @@
-{"user_id": 1, "ds18b20": [
-  {"csrf_token": "IjA1NWE0OWYyMDEwYWQyMWE2OTY0Zjg5ZGZiMzY2MDFjZjA5NTgyZmYi.XaoZCw.yqzlGbnBxG8O3ENinF5HgX5XE4Y",
-    "sensor_name": "Fridge 2", "sensor_code": "28-00000b246922", "user_id": "1", "token": "#j%sxyU1NE", "submit1": "Save"}]}
+{
+  "user_id": 1,
+  "ds18b20": [
+    {
+      "csrf_token": "IjUwMmQ4ZDQ2OTIyNGIzNWM0OWY3MTk0MzJmYjAyNDZmYzFmY2I4Y2Yi.Xb3xzQ.a9QrAYFr3y7T014l6FmzzWGmlZw",
+      "sensor_name": "Test",
+      "sensor_code": "28-00000b246922",
+      "user_id": "1",
+      "token": "F#QRCWA",
+      "submit1": "Save"
+    }
+  ]
+}

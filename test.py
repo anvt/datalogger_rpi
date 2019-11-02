@@ -67,7 +67,7 @@ if __name__ == '__main__':
         try:
             ipv4 = os.popen('ip addr show eth0').read().split("inet ")[1].split("/")[0]
         except Exception as e:
-            ipv4=None
+            ipv4 = None
             print(e)
         user_id = data['user_id']
 
@@ -114,4 +114,3 @@ if __name__ == '__main__':
                 print(e)
                 # todo: send request to server that an error has occured else send an sms from the shield.
         time.sleep(30)
-
