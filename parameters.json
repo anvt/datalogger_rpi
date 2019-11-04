@@ -1,4 +1,29 @@
 {
   "user_id": 1,
-  "ds18b20": []
+  "ds18b20": [
+    {
+      "csrf_token": "ImUwODI1ZTdiNThlZDliM2I1MWEyMGRlYmMxMTY3ZjYxYzlkOTBlMTki.XcAHAw.ZAUTYSTomyHum-AQ_2Nc59rC9ZU",
+      "sensor_name": "Fridge 1",
+      "sensor_code": "28-00000b9a6e8e",
+      "user_id": "1",
+      "token": ">8Bru,,}3m",
+      "submit1": "Save"
+    },
+    {
+      "csrf_token": "ImUwODI1ZTdiNThlZDliM2I1MWEyMGRlYmMxMTY3ZjYxYzlkOTBlMTki.XcAI6w.hGaPNZ0EgTsiUaU4U5aqeFWoSLM",
+      "sensor_name": "Fridge 2",
+      "sensor_code": "28-00000b246922",
+      "user_id": "1",
+      "token": "C~4u/P:(i@",
+      "submit1": "Save"
+    },
+    {
+      "csrf_token": "ImUwODI1ZTdiNThlZDliM2I1MWEyMGRlYmMxMTY3ZjYxYzlkOTBlMTki.XcAI_g.sxYa3SJcCJ2763aSMkUBOp5dhAE",
+      "sensor_name": "Fridge 3",
+      "sensor_code": "28-00000b993cfa",
+      "user_id": "1",
+      "token": "[ihBPIU7.3",
+      "submit1": "Save"
+    }
+  ]
 }
