@@ -1,13 +1,4 @@
 {
   "user_id": 1,
-  "ds18b20": [
-    {
-      "csrf_token": "IjUwMmQ4ZDQ2OTIyNGIzNWM0OWY3MTk0MzJmYjAyNDZmYzFmY2I4Y2Yi.Xb3xzQ.a9QrAYFr3y7T014l6FmzzWGmlZw",
-      "sensor_name": "Test",
-      "sensor_code": "28-00000b246922",
-      "user_id": "1",
-      "token": "F#QRCWA",
-      "submit1": "Save"
-    }
-  ]
+  "ds18b20": []
 }

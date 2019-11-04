@@ -99,8 +99,8 @@ def index():
         data = json.load(parameters)
 
     ds18b20s = data['ds18b20']
-    # find_ds18b20_paths = get_ds18b20_paths()
-    find_ds18b20_paths = [('28-00000b246922', 'path')]
+    find_ds18b20_paths = get_ds18b20_paths()
+    # find_ds18b20_paths = [('28-00000b246922', 'path')]
     try:
         detected_ds18b20s = [d[0] for d in find_ds18b20_paths]
     except:
