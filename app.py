@@ -95,7 +95,7 @@ def get_ds18b20_paths():
 def index():
     form = RegisterSensor(prefix='form')
 
-    with open('parameters.json') as parameters:
+    with open('../parameters.json') as parameters:
         data = json.load(parameters)
 
     ds18b20s = data['ds18b20']
@@ -139,7 +139,7 @@ def index():
                     temp[new_key] = ds[k]
                 data['ds18b20'].append(temp)
                 #     data['ds18b20'].append(ds)
-            with open('parameters.json', 'w') as f:
+            with open('../parameters.json', 'w') as f:
                 json.dump(data, f)
             flash('Please Reboot the system (if you are done)')
             # os.system('/etc/init.d/cron reload')
@@ -151,7 +151,7 @@ def index():
         ds18b20s.pop(form1.sensor_name.data)
         data['ds18b20'] = ds18b20s
         flash('Erased Sensor Info Succesfully')
-        with open('parameters.json', 'w') as data_file:
+        with open('../parameters.json', 'w') as data_file:
             json.dump(data, data_file)
         return redirect('/')
 

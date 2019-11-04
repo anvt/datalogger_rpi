@@ -16,7 +16,7 @@ from config import base_dir
 
 if __name__ == '__main__':
 
-    with open('parameters.json') as parameters:
+    with open('../parameters.json') as parameters:
         data = json.load(parameters)
 
     while True:
