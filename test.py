@@ -1,18 +1,6 @@
 import time
 import json
 from utilities import get_ds18b20_paths, read_temp, get_local_ip_address, send_data
-import os
-import requests
-from config import base_dir
-
-# device_folder = glob.glob(base_dir + '28*')[0]
-# device_file = device_folder + '/w1_slave'
-# os.system('modprobe w1-gpio')
-# os.system('modprobe w1-therm')
-
-
-# os.environ['NO_PROXY'] = '127.0.0.1'
-
 
 if __name__ == '__main__':
 
@@ -54,6 +42,5 @@ if __name__ == '__main__':
             payload['ipv4'] = ipv4
 
             send_data(payload)
-                # todo: send request to server that an error has occured else send an sms from the shield.
+            # todo: send request to server that an error has occured else send an sms from the shield.
         time.sleep(30)
-
