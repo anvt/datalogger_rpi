@@ -227,7 +227,6 @@ def index3():
         df = pd.DataFrame(list(zip(dts, values)), columns=['x', 'y'])
         # todo: add parameter in form to show last n results.
         df2 = df.dropna().iloc[-20:]
-
         x = df2['x']
         y = df2['y']
     except Exception as e:
