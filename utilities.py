@@ -5,7 +5,7 @@ import os
 import requests
 import json
 
-from config import base_dir
+from config import w1_sensor_directory
 
 
 def get_local_ip_address():
@@ -25,7 +25,7 @@ def get_local_ip_address():
 def get_ds18b20_paths():
     ds = []
     sensor_id = []
-    device_folders = glob.glob(base_dir + '28*')
+    device_folders = glob.glob(w1_sensor_directory + '28*')
     device_folders_slave = [p + '/w1_slave' for p in device_folders]
 
     for path in device_folders_slave:

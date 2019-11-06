@@ -3,9 +3,9 @@ import json
 from utilities import get_ds18b20_paths, read_temp, get_local_ip_address, send_data
 import os
 import requests
-from config import base_dir
+from config import w1_sensor_directory
 
-# device_folder = glob.glob(base_dir + '28*')[0]
+# device_folder = glob.glob(w1_sensor_directory + '28*')[0]
 # device_file = device_folder + '/w1_slave'
 # os.system('modprobe w1-gpio')
 # os.system('modprobe w1-therm')
