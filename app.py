@@ -103,18 +103,27 @@ def index():
     # find_ds18b20_paths = [('28-00000b246922', 'path')]
     try:
         detected_ds18b20s = [d[0] for d in find_ds18b20_paths]
+        # detected_ds18b20s = ['28-00000b9a6e8e', '28-00000b993cfa', '28-00000b246922']
+
     except:
         detected_ds18b20s = []
 
     output = []
     for dd in ds18b20s:
-        output.append(str([dd['sensor_name'], dd['sensor_code'], dd['token'], dd['user_id']]))
+        try:
+            output.append(str([dd['sensor_name'], dd['sensor_code'], dd['token'], dd['user_id']]))
+        except:
+            output.append(str([dd['form-sensor_name'], dd['form-sensor_code'], dd['form-token'], dd['form-user_id']]))
 
     form1 = DeleteSensorForm(prefix='form1')
     codes = []
     for d, dd in enumerate(ds18b20s):
-        code = dd['sensor_code']
-        name = dd['sensor_name']
+        try:
+            code = dd['sensor_code']
+            name = dd['sensor_name']
+        except:
+            code = dd['form-sensor_code']
+            name = dd['form-sensor_name']
         codes.append((d, name + ' ' + code))
 
     form1.sensor_name.choices = codes
